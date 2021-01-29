@@ -1,5 +1,4 @@
-﻿using SnabBashka.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -11,16 +10,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using static SnabBashka.Models.SupplyDpt;
 
 namespace SnabBashka.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для MainPage.xaml
+    /// Логика взаимодействия для CreateInvoicePage.xaml
     /// </summary>
-    public partial class MainPage : Page
+    public partial class CreateInvoicePage : Page
     {
-        public MainPage()
+        public CreateInvoicePage()
         {
             InitializeComponent();
         }

@@ -2,38 +2,48 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LiteDB;
 
 namespace SnabBashka.Models
 {
-    public class SupplyDepartment : BindableBase
+    public class SupplyDpt : BindableBase, INotifyPropertyChanged
     {
         public class Invoice
         {
-            public int Id { get; set; }
+            public ObjectId Id { get; set; }
             public Contractor Contractor { get; set; }
-            public string Department { get; set; }
+            public string Department { get; set; }          
             public string Number { get; set; }
             public DateTime Date { get; set; }
             public double Summ { get; set; }
             public bool IsToPayment { get; set; }
-            public bool IsPaid { get; set; }
-            public int IsReceived { get; set; }
+            public bool IsPaid { get; set; } 
+            public bool IsReceived { get; set; }
             public bool Is1C { get; set; }
             public string Remarks { get; set; }
             public string Link { get; set; }
 
-            public ObservableCollection<Order> orders { get; set; } = new ObservableCollection<Order>();
+            public ObservableCollection<Order> Orders { get; set; } = new ObservableCollection<Order>();
+            public Invoice()
+            {
+                Id = ObjectId.NewObjectId();
+            }
         }
         public class Order
         {
-            public int Id { get; set; }
+            public ObjectId Id { get; set; }
             public int Number { get; set; }
             public string Title { get; set; }
             public string Department { get; set; }
             public ObservableCollection<Invoice> Invoices { get; set; } = new ObservableCollection<Invoice>();
+            public Order()
+            {
+                Id = ObjectId.NewObjectId();
+            }
         }
 
         //public class Department
@@ -44,9 +54,15 @@ namespace SnabBashka.Models
 
         public class Contractor
         {
-            public int Id { get; set; }
+            public ObjectId Id { get; set; }
             public string Title { get; set; }
+            public string Remarks { get; set; }
+            public string Link { get; set; }
             public ObservableCollection<Invoice> Invoices { get; set; } = new ObservableCollection<Invoice>();
+            public Contractor()
+            {
+                Id = ObjectId.NewObjectId();
+            }
         }
     }
 

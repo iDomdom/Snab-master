@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static SnabBashka.Models.SupplyDpt;
 
 namespace SnabBashka.Services
 {
@@ -19,9 +20,24 @@ namespace SnabBashka.Services
             return GetCollection<T>().FindAll();
         }
 
-        private ILiteCollection<T> GetCollection<T>()
+        public void Save<T> (T item)
+        {
+            GetCollection<T>().Upsert(item);
+        }
+
+        public ILiteCollection<T> GetCollection<T>()
         {
             return _db.GetCollection<T>();
+        }
+
+        public void Edit<T> (T item)
+        {
+
+        }
+
+        public void DropDB()
+        {
+            _db.DropCollection("SnabDB");
         }
     }
 }

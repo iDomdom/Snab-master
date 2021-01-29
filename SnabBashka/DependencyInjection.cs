@@ -18,9 +18,10 @@ namespace SnabBashka
             
             services.AddSingleton<MainViewModel>();
             services.AddTransient<MainPageViewModel>();
+            services.AddTransient<CreateInvoicePageViewModel>();
 
             services.AddSingleton<PageService>();
-            services.AddSingleton(new LiteDatabase("Data/SupplyDepartment.db"));
+            services.AddSingleton(new LiteDatabase("Data/SnabDB.db"));
             services.AddTransient<Repository>();
 
 

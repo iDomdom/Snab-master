@@ -1,7 +1,7 @@
 ﻿using DevExpress.Mvvm;
 using SnabBashka.Pages;
 using System.Windows.Controls;
-
+using System.Windows.Input;
 
 namespace SnabBashka.ViewModels
 {
@@ -11,8 +11,15 @@ namespace SnabBashka.ViewModels
 
         public MainViewModel(PageService navigation)
         {
-            navigation.OnPageChanged += page => CurrentPage = page;
+            navigation.OnPageChanged += page =>
+            {
+                CurrentPage = page;
+            };
             navigation.Navigate(new MainPage());
+
+
         }
+
     }
 }
+

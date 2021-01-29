@@ -1,0 +1,52 @@
+﻿<Page x:Class="SnabBashka.Pages.CreateInvoicePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SnabBashka.Pages"
+      xmlns:converters="clr-namespace:SnabBashka.Pages.Converters"
+      DataContext="{Binding Source={StaticResource VMLocator}, Path=CreateInvoicePageViewModel}"
+      mc:Ignorable="d"
+      
+      d:DesignHeight="450" d:DesignWidth="250"
+      Title="CreateInvoicePage">
+    <Page.Resources>
+        <converters:OrderListConverter x:Key="orderListConverter"/>
+        <converters:DateTimeToDateConverter x:Key="dateTimeToDateConverter"/>
+        <Style TargetType="GroupBox">            
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Vertical" DataContext="{Binding Path=invoice, UpdateSourceTrigger=PropertyChanged}" MaxWidth="200">
+            <GroupBox Header="Номера заказов">
+                <TextBox Text="{Binding Orders, Converter={StaticResource orderListConverter}, UpdateSourceTrigger=LostFocus}"/>
+            </GroupBox>
+            <GroupBox Header="Цех">
+                <TextBox Text="{Binding Department}"/>
+            </GroupBox>
+            <GroupBox Header="Поставщик">
+                <TextBox Text="{Binding Contractor.Title}"/>
+            </GroupBox>
+            <GroupBox Header="Дата выставления">
+                <TextBox Text="{Binding Date, Converter={StaticResource dateTimeToDateConverter}}"/>
+            </GroupBox>
+            <GroupBox Header="Сумма">
+                <TextBox Text="{Binding Summ, UpdateSourceTrigger=PropertyChanged}"/>
+            </GroupBox>
+            <GroupBox Header="Примечания">
+                <TextBox Text="{Binding Remarks}"/>
+            </GroupBox>
+            <GroupBox Header="Ссылка">
+                <TextBox Text="{Binding Link}"/>
+            </GroupBox>
+        </StackPanel>
+        <UniformGrid Grid.Row="1" Columns="4">
+            <Button Margin="3" Padding="3" Content="Сохранить" Command="{Binding SaveInvoice}"/>
+            <Button Margin="3" Padding="3" Content="Назад"/>
+        </UniformGrid>
+    </Grid>
+</Page>
