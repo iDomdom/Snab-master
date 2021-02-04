@@ -35,11 +35,17 @@ namespace SnabBashka.ViewModels
         {
             Invoices = new ObservableCollection<Invoice>();
             _navigation = navigation;
-            _repository = repository;
+            _repository = repository;            
+
+            List<Invoice> invoices = Invoices.ToList();            
+            
             foreach (var i in _repository.GetCollection<Invoice>().FindAll())
-            {
+                invoices.Add(i);          
+            
+            invoices.Sort(new OrderComparer());
+            foreach (var i in invoices)
                 Invoices.Add(i);
-            }
+
             CanSaveAllCommandExecuted(false);
             CloseAppCommand = new RelayCommand(OnCloseAppCommandExecuted, CanCloseAppCommandExecute);
             SaveAllCommand = new RelayCommand(OnSaveAllCommandExecuted, CanSaveAllCommandExecuted);

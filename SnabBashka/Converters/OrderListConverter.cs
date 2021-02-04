@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Windows.Data;
 using static SnabBashka.Models.SupplyDpt;
 
@@ -83,16 +84,20 @@ namespace SnabBashka.Pages.Converters
 
             foreach (string n in numsArr)
             {
-                int d = n.IndexOf(dash);
-                if (d == -1)
-                    orders.Add(new Order { Number=int.Parse(n) });
-                else
+                try
                 {
-                    int start = int.Parse(n.Substring(0, d));
-                    int end = int.Parse(n[(d + 1)..]);
-                    for (int i = start; i <= end; i++)
-                        orders.Add(new Order { Number = i });
+                    int d = n.IndexOf(dash);
+                    if (d == -1)
+                        orders.Add(new Order { Number = int.Parse(n) });
+                    else
+                    {
+                        int start = int.Parse(n.Substring(0, d));
+                        int end = int.Parse(n[(d + 1)..]);
+                        for (int i = start; i <= end; i++)
+                            orders.Add(new Order { Number = i });
+                    }
                 }
+                catch (Exception ex) { MessageBox.Show(ex.Message); }
             }
             return orders;
         }

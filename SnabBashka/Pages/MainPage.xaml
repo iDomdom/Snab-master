@@ -9,11 +9,13 @@
     xmlns:dc="clr-namespace:SnabBashka"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="MainPage"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    TextOptions.TextFormattingMode="Display">
     <Page.Resources>
         <converters:OrderListConverter x:Key="orderListConverter" />
         <converters:DateTimeToDateConverter x:Key="dateTimeToDateConverter" />
         <converters:ContractorConverter x:Key="contractorConverter" />
+        <converters:BoolToColorConverter x:Key="boolToColorConverter"/>
         <dc:ViewModelLocator x:Key="VMlocator"/>
         <Style TargetType="Button">
             <Setter Property="Margin" Value="5" />
@@ -25,6 +27,7 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        
     </Page.Resources>
     <Page.DataContext>
         <Binding Source="{StaticResource VMlocator}" Path="MainPageViewModel"/>
@@ -45,6 +48,13 @@
             AutoGenerateColumns="False"
             CanUserAddRows="True"
             ItemsSource="{Binding Invoices, UpdateSourceTrigger=PropertyChanged}">
+            <!--<DataGrid.RowStyle>
+                <Style>
+                    <Style.Setters>
+                        <Setter Property="ba"
+                    </Style.Setters>
+                </Style>
+            </DataGrid.RowStyle>-->
             <DataGrid.Columns>                
                 <DataGridTextColumn Binding="{Binding Orders, Converter={StaticResource orderListConverter}, UpdateSourceTrigger=PropertyChanged}" Header="№ заказов" />
                 <DataGridTextColumn Binding="{Binding Department, UpdateSourceTrigger=PropertyChanged}" Header="Цех" />
