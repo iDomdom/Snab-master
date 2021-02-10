@@ -5,9 +5,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:SnabBashka"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Main"
     SizeToContent="WidthAndHeight"
     WindowStartupLocation="CenterScreen"
-    Title="Main"
     mc:Ignorable="d">
     <Window.Resources>
         <local:ViewModelLocator x:Key="VMLocator" />
@@ -16,7 +16,7 @@
         </Style>
     </Window.Resources>
     <Window.DataContext>
-        <Binding Source="{StaticResource VMLocator}" Path="MainViewModel"/>
+        <Binding Path="MainViewModel" Source="{StaticResource VMLocator}" />
     </Window.DataContext>
     <Grid>
         <Frame Content="{Binding CurrentPage}" NavigationUIVisibility="Hidden" />

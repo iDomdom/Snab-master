@@ -10,7 +10,7 @@ using LiteDB;
 
 namespace SnabBashka.Models
 {
-    public class SupplyDpt : BindableBase, INotifyPropertyChanged
+    public class SupplyDpt : BindableBase
     {
         public class Invoice
         {

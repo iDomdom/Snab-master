@@ -2,21 +2,22 @@
     x:Class="SnabBashka.Pages.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:System="clr-namespace:System;assembly=mscorlib"
     xmlns:cmd="clr-namespace:SnabBashka.Commands"
     xmlns:converters="clr-namespace:SnabBashka.Pages.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:SnabBashka.Pages"
     xmlns:dc="clr-namespace:SnabBashka"
+    xmlns:local="clr-namespace:SnabBashka.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="MainPage"
-    mc:Ignorable="d"
-    TextOptions.TextFormattingMode="Display">
+    TextOptions.TextFormattingMode="Display"
+    mc:Ignorable="d">
     <Page.Resources>
         <converters:OrderListConverter x:Key="orderListConverter" />
         <converters:DateTimeToDateConverter x:Key="dateTimeToDateConverter" />
         <converters:ContractorConverter x:Key="contractorConverter" />
-        <converters:BoolToColorConverter x:Key="boolToColorConverter"/>
-        <dc:ViewModelLocator x:Key="VMlocator"/>
+        <converters:BoolToColorConverter x:Key="boolToColorConverter" />
+        <dc:ViewModelLocator x:Key="VMlocator" />
         <Style TargetType="Button">
             <Setter Property="Margin" Value="5" />
         </Style>
@@ -27,10 +28,10 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        
+
     </Page.Resources>
     <Page.DataContext>
-        <Binding Source="{StaticResource VMlocator}" Path="MainPageViewModel"/>
+        <Binding Path="MainPageViewModel" Source="{StaticResource VMlocator}" />
     </Page.DataContext>
     <Grid>
         <Grid.RowDefinitions>
@@ -47,29 +48,103 @@
             HorizontalAlignment="Left"
             AutoGenerateColumns="False"
             CanUserAddRows="True"
-            ItemsSource="{Binding Invoices, UpdateSourceTrigger=PropertyChanged}">
-            <!--<DataGrid.RowStyle>
-                <Style>
-                    <Style.Setters>
-                        <Setter Property="ba"
-                    </Style.Setters>
+            ItemsSource="{Binding Invoices, UpdateSourceTrigger=PropertyChanged}"
+            Style="{DynamicResource MaterialDesignDataGrid}">
+            <DataGrid.Resources>
+                <Style TargetType="CheckBox">
+                    <Style.Triggers />
                 </Style>
-            </DataGrid.RowStyle>-->
-            <DataGrid.Columns>                
+            </DataGrid.Resources>
+            <!--#region Смена цветов строк. Работает криво-->
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+
+                        <DataTrigger Binding="{Binding Path=IsToPayment}" Value="true">
+                            <Setter Property="Background" Value="{Binding Converter={StaticResource boolToColorConverter}}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=IsPaid}" Value="true">
+                            <Setter Property="Background" Value="{Binding Converter={StaticResource boolToColorConverter}}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=IsReceived}" Value="true">
+                            <Setter Property="Background" Value="{Binding Converter={StaticResource boolToColorConverter}}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=Is1C}" Value="true">
+                            <Setter Property="Background" Value="{Binding Converter={StaticResource boolToColorConverter}}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=IsToPayment}" Value="false">
+                            <Setter Property="Background" Value="{Binding Converter={StaticResource boolToColorConverter}}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=IsPaid}" Value="false">
+                            <Setter Property="Background" Value="{Binding Converter={StaticResource boolToColorConverter}}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=IsReceived}" Value="false">
+                            <Setter Property="Background" Value="{Binding Converter={StaticResource boolToColorConverter}}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=Is1C}" Value="false">
+                            <Setter Property="Background" Value="{Binding Converter={StaticResource boolToColorConverter}}" />
+                        </DataTrigger>
+
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="BorderThickness" Value="1" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.CellStyle>
+            <DataGrid.Columns>
+
                 <DataGridTextColumn Binding="{Binding Orders, Converter={StaticResource orderListConverter}, UpdateSourceTrigger=PropertyChanged}" Header="№ заказов" />
+                <DataGridTemplateColumn Header="Заказы">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding Orders, Converter={StaticResource orderListConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Binding="{Binding Department, UpdateSourceTrigger=PropertyChanged}" Header="Цех" />
                 <DataGridTextColumn Binding="{Binding Contractor, Converter={StaticResource contractorConverter}, UpdateSourceTrigger=PropertyChanged}" Header="Поставщик" />
                 <DataGridTextColumn Binding="{Binding Number, UpdateSourceTrigger=PropertyChanged}" Header="номер" />
                 <DataGridTextColumn Binding="{Binding Date, Converter={StaticResource dateTimeToDateConverter}, UpdateSourceTrigger=PropertyChanged}" Header="Дата" />
                 <DataGridTextColumn Binding="{Binding Summ, UpdateSourceTrigger=PropertyChanged}" Header="Сумма" />
-                <DataGridCheckBoxColumn Binding="{Binding IsToPayment, UpdateSourceTrigger=PropertyChanged}" Header="На оплату" />
-                <DataGridCheckBoxColumn Binding="{Binding IsPaid, UpdateSourceTrigger=PropertyChanged}" Header="Оплачен" />
-                <DataGridCheckBoxColumn Binding="{Binding IsReceived, UpdateSourceTrigger=PropertyChanged}" Header="Получен" />
-                <DataGridCheckBoxColumn Binding="{Binding Is1C, UpdateSourceTrigger=PropertyChanged}" Header="1С" />
+                <DataGridCheckBoxColumn
+                    Binding="{Binding IsToPayment, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                    EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
+                    ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
+                    Header="На оплату" />
+                <DataGridCheckBoxColumn
+                    Binding="{Binding IsPaid, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                    EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
+                    ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
+                    Header="Оплачен" />
+                <DataGridCheckBoxColumn
+                    Binding="{Binding IsReceived, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                    EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
+                    ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
+                    Header="Получен" />
+                <DataGridCheckBoxColumn
+                    Binding="{Binding Is1C, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                    EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
+                    ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
+                    Header="1С" />
                 <DataGridTextColumn Binding="{Binding Remarks, UpdateSourceTrigger=PropertyChanged}" Header="Примечания" />
                 <DataGridTextColumn Binding="{Binding Link, UpdateSourceTrigger=PropertyChanged}" Header="Ссылка" />
             </DataGrid.Columns>
         </DataGrid>
+        <!--#endregion-->
+        <!--<ListView Grid.Row="1" ItemsSource="{Binding Path=Invoices}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Orders, Converter={StaticResource orderListConverter}}" Header="Заказы" />
+                </GridView>
+            </ListView.View>
+        </ListView>-->
         <Button
             Grid.Row="2"
             HorizontalAlignment="Left"

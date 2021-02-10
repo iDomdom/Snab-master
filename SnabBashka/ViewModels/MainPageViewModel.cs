@@ -84,5 +84,13 @@ namespace SnabBashka.ViewModels
         }
         private bool CanCloseAppCommandExecute(object p) => true;
 
+        public ICommand TestCommand => new DelegateCommand(() =>
+        {
+
+        });
+        private bool CanTestCommandExecuted(object p) => true;
+
+        private void OnTestCommandExecute() { }
+
     }
 }

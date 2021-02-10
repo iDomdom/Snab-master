@@ -24,5 +24,6 @@ namespace SnabBashka.Pages
         {
             InitializeComponent();
         }
+
     }
 }

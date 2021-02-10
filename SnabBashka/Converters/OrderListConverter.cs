@@ -89,15 +89,18 @@ namespace SnabBashka.Pages.Converters
                     int d = n.IndexOf(dash);
                     if (d == -1)
                         orders.Add(new Order { Number = int.Parse(n) });
+                    else if (n.Length == d + 1)
+                        orders.Add(new Order { Number = int.Parse(n.Substring(0, d)) });
                     else
                     {
                         int start = int.Parse(n.Substring(0, d));
+
                         int end = int.Parse(n[(d + 1)..]);
                         for (int i = start; i <= end; i++)
                             orders.Add(new Order { Number = i });
                     }
                 }
-                catch (Exception ex) { MessageBox.Show(ex.Message); }
+                catch (Exception ex) {  }
             }
             return orders;
         }
