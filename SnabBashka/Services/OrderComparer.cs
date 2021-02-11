@@ -12,6 +12,15 @@ namespace SnabBashka.Services
     {
         public int Compare([AllowNull] Invoice x, [AllowNull] Invoice y)
         {
+            List<int> xorders = new List<int>();
+            List<int> yorders = new List<int>();
+            if (x.Orders != null)
+                foreach (var o in x.Orders)
+                    xorders.Add(o.Number);
+            if (y.Orders != null)
+                foreach (var o in y.Orders)
+                    yorders.Add(o.Number);
+
             if (x.Orders.Count == 0 && y.Orders.Count != 0)
                 return 1;
             if (y.Orders.Count == 0 && x.Orders.Count == 0)
@@ -20,13 +29,21 @@ namespace SnabBashka.Services
                 return -1;
             try
             {
-                if (x.Orders.Min(o => o.Number) >= y.Orders.Min(o1 => o1.Number))
-                    return 1;
-                else if (x.Orders.Min(o => o.Number) < y.Orders.Min(o1 => o1.Number))
-                    return -1;
+                int count;
+                if (xorders.Count < yorders.Count)
+                    count = xorders.Count;
+                else count = yorders.Count;
+                for (int i = 0; i<count; i++)
+                {
+                    if (xorders[i] > yorders[i])
+                        return 1;
+                    if (xorders[i] < yorders[i])
+                        return -1;                   
+                } 
+                return 1;
+
             }
             catch { return -1; }
-            return -1;
         }
     }
 }

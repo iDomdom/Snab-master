@@ -10,7 +10,6 @@
     xmlns:local="clr-namespace:SnabBashka.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="MainPage"
-    TextOptions.TextFormattingMode="Display"
     mc:Ignorable="d">
     <Page.Resources>
         <converters:OrderListConverter x:Key="orderListConverter" />
@@ -18,9 +17,9 @@
         <converters:ContractorConverter x:Key="contractorConverter" />
         <converters:BoolToColorConverter x:Key="boolToColorConverter" />
         <dc:ViewModelLocator x:Key="VMlocator" />
-        <Style TargetType="Button">
+        <!--<Style TargetType="Button">
             <Setter Property="Margin" Value="5" />
-        </Style>
+        </Style>-->
         <Style TargetType="DataGridCell">
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
@@ -41,25 +40,21 @@
         </Grid.RowDefinitions>
         <UniformGrid Columns="6">
             <Button Command="{Binding AddInvoice}" Content="Добавить счет" />
-            <Button Command="{Binding RemoveInvoice}" Content="Удалить" />
+            <Button Command="{Binding RemoveInvoice}" Content="Удалить" />            
         </UniformGrid>
         <DataGrid
             Grid.Row="1"
             HorizontalAlignment="Left"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
             AutoGenerateColumns="False"
             CanUserAddRows="True"
-            ItemsSource="{Binding Invoices, UpdateSourceTrigger=PropertyChanged}"
+            ItemsSource="{Binding Invoices, IsAsync=True, UpdateSourceTrigger=PropertyChanged}"
             Style="{DynamicResource MaterialDesignDataGrid}">
-            <DataGrid.Resources>
-                <Style TargetType="CheckBox">
-                    <Style.Triggers />
-                </Style>
-            </DataGrid.Resources>
             <!--#region Смена цветов строк. Работает криво-->
-            <DataGrid.RowStyle>
+            <!--<DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>
-
                         <DataTrigger Binding="{Binding Path=IsToPayment}" Value="true">
                             <Setter Property="Background" Value="{Binding Converter={StaticResource boolToColorConverter}}" />
                         </DataTrigger>
@@ -84,10 +79,9 @@
                         <DataTrigger Binding="{Binding Path=Is1C}" Value="false">
                             <Setter Property="Background" Value="{Binding Converter={StaticResource boolToColorConverter}}" />
                         </DataTrigger>
-
                     </Style.Triggers>
                 </Style>
-            </DataGrid.RowStyle>
+            </DataGrid.RowStyle>-->
             <DataGrid.CellStyle>
                 <Style TargetType="DataGridCell">
                     <Style.Triggers>
@@ -99,15 +93,7 @@
                 </Style>
             </DataGrid.CellStyle>
             <DataGrid.Columns>
-
-                <DataGridTextColumn Binding="{Binding Orders, Converter={StaticResource orderListConverter}, UpdateSourceTrigger=PropertyChanged}" Header="№ заказов" />
-                <DataGridTemplateColumn Header="Заказы">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Orders, Converter={StaticResource orderListConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                <DataGridTextColumn Binding="{Binding Orders, Converter={StaticResource orderListConverter}, UpdateSourceTrigger=LostFocus}" Header="№ заказов" />
                 <DataGridTextColumn Binding="{Binding Department, UpdateSourceTrigger=PropertyChanged}" Header="Цех" />
                 <DataGridTextColumn Binding="{Binding Contractor, Converter={StaticResource contractorConverter}, UpdateSourceTrigger=PropertyChanged}" Header="Поставщик" />
                 <DataGridTextColumn Binding="{Binding Number, UpdateSourceTrigger=PropertyChanged}" Header="номер" />
@@ -134,17 +120,16 @@
                     ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
                     Header="1С" />
                 <DataGridTextColumn Binding="{Binding Remarks, UpdateSourceTrigger=PropertyChanged}" Header="Примечания" />
+                <DataGridTemplateColumn Header="ССЫЛЬ">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Command="{Binding "
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Binding="{Binding Link, UpdateSourceTrigger=PropertyChanged}" Header="Ссылка" />
             </DataGrid.Columns>
         </DataGrid>
-        <!--#endregion-->
-        <!--<ListView Grid.Row="1" ItemsSource="{Binding Path=Invoices}">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding Orders, Converter={StaticResource orderListConverter}}" Header="Заказы" />
-                </GridView>
-            </ListView.View>
-        </ListView>-->
         <Button
             Grid.Row="2"
             HorizontalAlignment="Left"

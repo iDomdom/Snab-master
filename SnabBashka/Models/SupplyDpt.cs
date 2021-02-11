@@ -31,6 +31,7 @@ namespace SnabBashka.Models
             public Invoice()
             {
                 Id = ObjectId.NewObjectId();
+                Date = DateTime.Now;
             }
         }
         public class Order

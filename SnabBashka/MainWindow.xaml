@@ -19,6 +19,6 @@
         <Binding Path="MainViewModel" Source="{StaticResource VMLocator}" />
     </Window.DataContext>
     <Grid>
-        <Frame Content="{Binding CurrentPage}" NavigationUIVisibility="Hidden" />
+        <Frame Content="{Binding CurrentPage}" NavigationUIVisibility="Automatic" />
     </Grid>
 </Window>

@@ -49,6 +49,7 @@ namespace SnabBashka.ViewModels
             CanSaveAllCommandExecuted(false);
             CloseAppCommand = new RelayCommand(OnCloseAppCommandExecuted, CanCloseAppCommandExecute);
             SaveAllCommand = new RelayCommand(OnSaveAllCommandExecuted, CanSaveAllCommandExecuted);
+            TestCommand = new RelayCommand(OnTestCommandExecute, CanTestCommandExecuted);
         }
 
 
@@ -68,8 +69,11 @@ namespace SnabBashka.ViewModels
                 return true;
             return false;
         }
-        private void OnSaveAllCommandExecuted(object p) => _repository.GetCollection<Invoice>().Upsert(Invoices);
-
+        private void OnSaveAllCommandExecuted(object p)
+        {
+            _repository.GetCollection<Invoice>().Upsert(Invoices);
+            
+        }
 
         public DelegateCommand<Invoice> RemoveCommand { get; private set; }
         void RemoveCommandExecute(ObservableCollection<Invoice> invoices) 
@@ -84,13 +88,14 @@ namespace SnabBashka.ViewModels
         }
         private bool CanCloseAppCommandExecute(object p) => true;
 
-        public ICommand TestCommand => new DelegateCommand(() =>
-        {
-
-        });
+        public ICommand TestCommand { get; }
         private bool CanTestCommandExecuted(object p) => true;
 
-        private void OnTestCommandExecute() { }
+        private void OnTestCommandExecute(object p)
+        {
+            string path = p as string;
+            Process.Start(path);
+        }
 
     }
 }

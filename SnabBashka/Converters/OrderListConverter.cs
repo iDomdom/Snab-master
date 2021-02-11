@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -100,7 +101,7 @@ namespace SnabBashka.Pages.Converters
                             orders.Add(new Order { Number = i });
                     }
                 }
-                catch (Exception ex) {  }
+                catch (Exception ex) { Debug.Write(ex.Message); }
             }
             return orders;
         }
