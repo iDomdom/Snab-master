@@ -9,7 +9,7 @@
     xmlns:dc="clr-namespace:SnabBashka"
     xmlns:local="clr-namespace:SnabBashka.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="MainPage"
+    Title="Счета"
     mc:Ignorable="d">
     <Page.Resources>
         <converters:OrderListConverter x:Key="orderListConverter" />
@@ -40,7 +40,7 @@
         </Grid.RowDefinitions>
         <UniformGrid Columns="6">
             <Button Command="{Binding AddInvoice}" Content="Добавить счет" />
-            <Button Command="{Binding RemoveInvoice}" Content="Удалить" />            
+            <Button Command="{Binding RemoveInvoice}" Content="Удалить" />
         </UniformGrid>
         <DataGrid
             Grid.Row="1"
@@ -49,7 +49,7 @@
             VerticalContentAlignment="Center"
             AutoGenerateColumns="False"
             CanUserAddRows="True"
-            ItemsSource="{Binding Invoices, IsAsync=True, UpdateSourceTrigger=PropertyChanged}"
+            ItemsSource="{Binding Invoices, IsAsync=False, UpdateSourceTrigger=PropertyChanged}"
             Style="{DynamicResource MaterialDesignDataGrid}">
             <!--#region Смена цветов строк. Работает криво-->
             <!--<DataGrid.RowStyle>
@@ -123,11 +123,21 @@
                 <DataGridTemplateColumn Header="ССЫЛЬ">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Command="{Binding "
+                            <Button
+                                Width="60"
+                                Height="20"
+                                Padding="2"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Background="BurlyWood"
+                                Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Page}}, Path=DataContext.OpenInvoice}"
+                                CommandParameter="{Binding Link}"
+                                Content="Открыть"
+                                FontSize="10" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Binding="{Binding Link, UpdateSourceTrigger=PropertyChanged}" Header="Ссылка" />
+                <DataGridTextColumn Binding="{Binding Link, UpdateSourceTrigger=PropertyChanged}" Header="Ссылка" MaxWidth="100" />
             </DataGrid.Columns>
         </DataGrid>
         <Button

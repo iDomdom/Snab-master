@@ -35,9 +35,9 @@ namespace SnabBashka.ViewModels
         {
             Invoices = new ObservableCollection<Invoice>();
             _navigation = navigation;
-            _repository = repository;            
+            _repository = repository;
 
-            List<Invoice> invoices = Invoices.ToList();            
+            List<Invoice> invoices = new List<Invoice>();
             
             foreach (var i in _repository.GetCollection<Invoice>().FindAll())
                 invoices.Add(i);          
@@ -57,6 +57,17 @@ namespace SnabBashka.ViewModels
         {
             _navigation.Navigate(new CreateInvoicePage());
         });
+
+        public ICommand OpenInvoice => new DelegateCommand<string>(OpenFile);
+        private void OpenFile(string path)
+        {
+            var p = new Process();
+            p.StartInfo = new ProcessStartInfo(@path)
+            {
+                UseShellExecute = true
+            };
+            p.Start();
+        }
 
         //public ICommand SaveAll => new DelegateCommand(() =>
         //{

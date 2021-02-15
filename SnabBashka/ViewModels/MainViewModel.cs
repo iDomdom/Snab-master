@@ -1,22 +1,43 @@
 ﻿using DevExpress.Mvvm;
+using Snab.Services;
 using SnabBashka.Pages;
 using System.Windows.Controls;
 using System.Windows.Input;
+using static SnabBashka.Models.SupplyDpt;
 
 namespace SnabBashka.ViewModels
 {
-    class MainViewModel : BindableBase
+    public class MainViewModel : BindableBase
     {
         public Page CurrentPage { get; set; }
+        private PageService _navigation;
+        private Invoice _newInvoice;
+        public Invoice NewInvoice
+        {
+            get { return _newInvoice; }
+            set
+            {
+                _newInvoice = value;
+                if (value != null)
+                    Messenger.Default.Send(new AddInvoiceArgs(value));
+                _navigation.Navigate(new CreateInvoicePage());
+            }
+        }
 
         public MainViewModel(PageService navigation)
         {
-            navigation.OnPageChanged += page =>
+            _navigation = navigation;
+            _navigation.OnPageChanged += page =>
             {
                 CurrentPage = page;
             };
-            navigation.Navigate(new MainPage());
-
+            MainPage mainPage = new MainPage();
+            _navigation.Navigate(mainPage);
+            NewInvoice = new Invoice()
+            {
+                Department = "ХЦЙ"
+            };
+            //((MainPageViewModel)mainPage.DataContext).
 
         }
 
