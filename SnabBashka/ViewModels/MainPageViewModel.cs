@@ -49,7 +49,7 @@ namespace SnabBashka.ViewModels
             CanSaveAllCommandExecuted(false);
             CloseAppCommand = new RelayCommand(OnCloseAppCommandExecuted, CanCloseAppCommandExecute);
             SaveAllCommand = new RelayCommand(OnSaveAllCommandExecuted, CanSaveAllCommandExecuted);
-            TestCommand = new RelayCommand(OnTestCommandExecute, CanTestCommandExecuted);
+            OpenInvoiceCommand = new RelayCommand(OnOpenInvoiceCommandExecute, CanOpenInvoiceCommandExecuted);
         }
 
 
@@ -88,13 +88,19 @@ namespace SnabBashka.ViewModels
         }
         private bool CanCloseAppCommandExecute(object p) => true;
 
-        public ICommand TestCommand { get; }
-        private bool CanTestCommandExecuted(object p) => true;
+        public ICommand OpenInvoiceCommand { get; }
+        private bool CanOpenInvoiceCommandExecuted(object p) => true;
 
-        private void OnTestCommandExecute(object p)
+        private void OnOpenInvoiceCommandExecute(object p)
         {
-            string path = p as string;
-            Process.Start(path);
+            Process process = new Process
+            {
+                StartInfo = new ProcessStartInfo((string)p)
+                {
+                    UseShellExecute = true
+                }
+            };
+            process.Start();
         }
 
     }

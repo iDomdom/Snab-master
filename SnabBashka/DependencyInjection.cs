@@ -23,6 +23,7 @@ namespace SnabBashka
             services.AddSingleton<PageService>();
             services.AddSingleton(new LiteDatabase("Data/SnabDB.db"));
             services.AddTransient<Repository>();
+            services.AddSingleton<MessageBus>();
 
 
 

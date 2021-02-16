@@ -9,14 +9,14 @@ namespace SnabBashka
 {
     public class PageService
     {
-        private Stack<Page> _history;
+        //private Stack<Page> _history;
         //private Page _lastPage;
 
         public event Action<Page> OnPageChanged;
-        public PageService()
-        {
-            _history = new Stack<Page>();
-        }
+        //public PageService()
+        //{
+        //    _history = new Stack<Page>();
+        //}
         public void Navigate(Page page)
         {
             OnPageChanged?.Invoke(page);
