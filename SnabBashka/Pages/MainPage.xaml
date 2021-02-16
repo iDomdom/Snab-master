@@ -40,7 +40,7 @@
         </Grid.RowDefinitions>
         <UniformGrid Columns="6">
             <Button Command="{Binding AddInvoice}" Content="Добавить счет" />
-            <Button Command="{Binding RemoveInvoice}" Content="Удалить" />            
+            <Button Command="{Binding RemoveInvoice}" Content="Удалить" />
         </UniformGrid>
         <DataGrid
             Grid.Row="1"
@@ -123,7 +123,17 @@
                 <DataGridTemplateColumn Header="ССЫЛЬ">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Command="{Binding "
+                            <Button
+                                Width="60"
+                                Height="20"
+                                Padding="2"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Background="BurlyWood"
+                                Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Page}}, Path=DataContext.OpenInvoice}"
+                                CommandParameter="{Binding Link}"
+                                Content="Открыть"
+                                FontSize="10" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
