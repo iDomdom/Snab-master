@@ -35,7 +35,8 @@ namespace SnabBashka.ViewModels
         {
             Invoices = new ObservableCollection<Invoice>();
             _navigation = navigation;
-            _repository = repository;            
+            _repository = repository;
+
 
             List<Invoice> invoices = Invoices.ToList();            
             

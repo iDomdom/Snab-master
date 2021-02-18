@@ -10,8 +10,9 @@ namespace SnabBashka.Services
 {
     public class InvoiceWatcher
     {
-        string path = @"D:\Invoices";
+        string path = "D:\\Invoices";
         private readonly MessageBus _messageBus;
+        private readonly PageService _navigation;
         public InvoiceWatcher()
         {
             _messageBus = new MessageBus();
@@ -31,12 +32,12 @@ namespace SnabBashka.Services
                                      | NotifyFilters.DirectoryName;
 
                 // Only watch text files.
-                watcher.Filter = "*.txt";
+                
 
                 // Add event handlers.
-                //watcher.Changed += OnChanged;
+                watcher.Changed += OnChanged;
                 watcher.Created += OnChanged;
-                //watcher.Deleted += OnChanged;
+                watcher.Deleted += OnChanged;
                 //watcher.Renamed += OnRenamed;
 
                 // Begin watching.
